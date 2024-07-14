@@ -1,0 +1,19 @@
+.DS_Store
+Thumbs.db
+.idea/              # JetBrains IDEs
+.vscode/            # Visual Studio Code
+*.sublime-project
+*.sublime-workspace
+/build/
+/dist/
+*.class
+*.jar
+/node_modules/
+/bower_components/
+.env               # Environment configuration file
+.env.local         # Local overrides of environment-specific settings
+.venv
+/tmp/
+.DS_Store?
+ehthumbs.db
+Icon?
