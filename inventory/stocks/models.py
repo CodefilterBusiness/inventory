@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class Stock(models.Model):
     stock_no = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, blank=True)
     unit = models.CharField(max_length=50)
     description = models.TextField()
     quantity = models.IntegerField()

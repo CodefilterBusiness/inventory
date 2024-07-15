@@ -17,12 +17,10 @@ class Outbound(models.Model):
         super().save(*args, **kwargs)
 
     def generate_transaction_ref(self):
-        return uuid.uuid4().hex[:10]  # Generate a unique transaction reference
+        return uuid.uuid4().hex[:10].upper()  # Generate a unique transaction reference
 
     def __str__(self):
         return self.transaction_ref
-
-
 
 def generate_transaction_ref():
     # Generate a unique transaction reference
