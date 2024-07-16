@@ -8,7 +8,14 @@ from .models import Outbound, OutboundItem
 class OutboundItemInline(admin.TabularInline):
     model = OutboundItem
     extra = 1
-    fields = ('stock', 'quantity')  # Removed 'unit' from fields
+    fields = ('stock', 'stock_name', 'quantity')  # Include 'stock_name' field
+
+    readonly_fields = ('stock_name',)  # Make stock_name readonly
+
+    def stock_name(self, instance):
+        return instance.stock.name  # Retrieve and display the name of the stock
+
+    stock_name.short_description = 'Stock Name'
 
 
 class OutboundAdmin(admin.ModelAdmin):
@@ -66,10 +73,19 @@ class OutboundAdmin(admin.ModelAdmin):
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
         obj = form.instance
-        if obj.outbounditem_set.exists():
-            obj.unit = obj.unit  # Ensure the unit is taken from the Outbound model itself
+
+        # Deduct stock quantities for all outbound items
+        for outbound_item in obj.outbounditem_set.all():
+            # Ensure to check if the quantity exceeds available stock
+            if outbound_item.quantity > outbound_item.stock.quantity:
+                raise ValueError(f"Stock quantity for '{outbound_item.stock.stock_no}' cannot be negative or zero.")
+
+            # Deduct the outbound quantity from stock
+            outbound_item.stock.quantity -= outbound_item.quantity
+            outbound_item.stock.save()
+
+        # Update the total_quantity field in Outbound model
+        obj.total_quantity = obj.outbounditem_set.aggregate(total=Sum('quantity'))['total']
         obj.save()
 
 admin.site.register(Outbound, OutboundAdmin)
-
-

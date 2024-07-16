@@ -27,18 +27,23 @@ class Outbound(models.Model):
 
 
 class OutboundItem(models.Model):
-    outbound = models.ForeignKey(Outbound, on_delete=models.CASCADE)
+    outbound = models.ForeignKey('Outbound', on_delete=models.CASCADE)
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     quantity = models.IntegerField()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+        # Check if the outbound quantity exceeds available stock
+        if self.quantity > self.stock.quantity:
+            raise ValueError(f"Stock quantity for '{self.stock.stock_no}' cannot be negative or zero.")
+
+        # Deduct the outbound quantity from stock
         self.stock.quantity -= self.quantity
-        if self.stock.quantity < 0:
-            raise ValueError('Stock quantity cannot be negative.')
         self.stock.save()
 
     def delete(self, *args, **kwargs):
+        # Return quantity to stock when deleting an outbound item
         self.stock.quantity += self.quantity
         self.stock.save()
         super().delete(*args, **kwargs)
