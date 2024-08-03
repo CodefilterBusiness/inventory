@@ -40,8 +40,8 @@ INSTALLED_APPS = [
 
     # APPS
     'outbound',
-    'outbound',
-    'profiles'
+    'stocks',
+    'profiles',
 ]
 
 MIDDLEWARE = [
@@ -121,7 +121,5 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [BASE_DIR / 'inventory' / 'static']
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
