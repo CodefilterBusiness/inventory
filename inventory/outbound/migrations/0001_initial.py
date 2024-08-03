@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('stocks', '0002_alter_stock_modified_by'),
+        ('outbound', '0002_alter_stock_modified_by'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -31,12 +31,12 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('quantity', models.IntegerField()),
                 ('outbound', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='outbound.outbound')),
-                ('stock', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stocks.stock')),
+                ('stock', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='outbound.stock')),
             ],
         ),
         migrations.AddField(
             model_name='outbound',
             name='items',
-            field=models.ManyToManyField(through='outbound.OutboundItem', to='stocks.stock'),
+            field=models.ManyToManyField(through='outbound.OutboundItem', to='outbound.stock'),
         ),
     ]

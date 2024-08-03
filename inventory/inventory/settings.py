@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
+# Print BASE_DIR to verify it's correct
+print('BASE DIRECTORY PATH: ', BASE_DIR)
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -37,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # APPS
-    'stocks',
+    'outbound',
     'outbound',
     'profiles'
 ]
@@ -54,11 +56,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'inventory.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Use Path for consistency
-        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / 'inventory' / 'templates'],  # Project-level templates
+        'APP_DIRS': True,  # This allows Django to look in app-specific templates folders
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -69,12 +72,12 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'inventory.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+print('BASE DIRECTORY PATH: ', BASE_DIR)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -114,8 +117,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'  # Make sure to include the leading slash
+STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [BASE_DIR / 'inventory' / 'static']
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

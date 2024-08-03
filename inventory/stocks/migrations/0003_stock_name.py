@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stocks', '0002_alter_stock_modified_by'),
+        ('outbound', '0002_alter_stock_modified_by'),
     ]
 
     operations = [
