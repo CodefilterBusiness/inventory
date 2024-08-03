@@ -11,6 +11,7 @@ class OutboundItemInline(admin.TabularInline):
     fields = ('stock', 'stock_name', 'quantity')  # Include 'stock_name' field
 
     readonly_fields = ('stock_name',)  # Make stock_name readonly
+    search_fields = ('stock', 'stock_name')  # Fields to search in the admin interface
 
     def stock_name(self, instance):
         return instance.stock.name  # Retrieve and display the name of the stock
